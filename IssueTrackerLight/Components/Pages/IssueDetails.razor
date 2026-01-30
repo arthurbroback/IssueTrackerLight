@@ -1,0 +1,31 @@
+﻿@page "/issues/{Id:int}"
+
+@using IssueTrackerLight.Models
+@inject IssueTrackerLight.Services.IssueService IssueService
+
+<h1>Issue detaljer</h1>
+
+@if (issue == null)
+{
+    <p>Issue hittades inte.</p>
+}
+else
+{
+    <p><strong>Id:</strong> @issue.Id</p>
+    <p><strong>Titel:</strong> @issue.Title</p>
+    <p><strong>Beskrivning:</strong> @issue.Description</p>
+    <p><strong>Status:</strong> @issue.Status</p>
+    <p><strong>Skapad:</strong> @issue.CreatedUtc.ToString("u")</p>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private Issue? issue;
+
+    protected override void OnInitialized()
+    {
+        issue = IssueService.GetById(Id);
+    }
+}
